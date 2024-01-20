@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <h1>
+            Welcome to <%=title%>
+        </h1>
+
+        <ul>
+            <% data.map((element) => {
+                %><li><%=element%></li><%
+            })
+
+            %>
+        </ul>
+    </body>
+</html>
