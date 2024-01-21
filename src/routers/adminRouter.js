@@ -1,5 +1,5 @@
 const express = require('express');
-const debug = require('debug')('app');
+const debug = require('debug')('app:adminRouter');
 const database = require('../utils/dbconn');
 
 const adminRouter = express.Router();

@@ -1,49 +1,146 @@
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Journal</title>
 </head>
+<body class="container mx-auto max-w-screen-xl px-6 lg:px-8 pt-32">
 
-<body>
-    <main class="bg-white px-6 py-32 lg:px-8">
-        <div class="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-            <p class="text-base font-semibold leading-7 text-indigo-600">
-                Journal for
-                <%=new Date(journal.timestamp).toLocaleDateString()%>
-                    submitted at
-                    <%=new Date(journal.timestamp).toLocaleTimeString()%>
-            </p>
+<header>
+    <a href="/journals" class="flex flex-row items-center font-medium text-blue-600 fill-blue-600 hover:underline">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="h-3 w-3">
+            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
+        </svg>
+        Back
+    </a>
 
-            <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                A Journal title
-            </h1>
+    <p class="text-base font-semibold leading-7 text-indigo-600 pt-5">
+        Journal entry for
+        <%= new Date(journal.datetime).toLocaleDateString() %>
+        submitted at
+        <%= new Date(journal.datetime).toLocaleTimeString() %>
+    </p>
 
-            <ul role="list" class="mt-8 max-w-xl space-y-8 text-gray-600">
-                <li class="flex gap-x-3">
-                    <svg class="mt-1 h-5 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor"
-                        aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span>
-                        <strong class="font-semibold text-gray-900">
-                            <%=journal.emotion%>
-                        </strong>
-                        <%=journal.trigger%>
-                    </span>
-                </li>
-            </ul>
-            <section id="journal-notes" class="pt-5 mt-2 ">
-                <h3 class="text-xl font-bold tracking-tight text-gray-900 mb-2">Notes</h3>
-                <p>
-                    <%=journal.notes%>
-                </p>
-            </section>
-    </main>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Journal Title: <%= journal.title %>
+    </h1>
+</header>
+
+<main class="bg-white">
+    <section id="emotions">
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 mt-8">
+            <dl id="anger">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/anger.svg" alt="anger icon" class="h-5 w-5"/>
+                    <span class="pl-2">Anger</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-red-600 h-2.5 rounded" style="width: <%= journal.anger * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="contempt">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/contempt.svg" alt="contempt icon" class="h-5 w-5"/>
+                    <span class="pl-2">Contempt</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-gray-600 h-2.5 rounded" style="width: <%= journal.contempt * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="disgust">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/disgust.svg" alt="disgust icon" class="h-5 w-5"/>
+                    <span class="pl-2">Disgust</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-lime-800 h-2.5 rounded" style="width: <%= journal.disgust * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="enjoyment">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/enjoyment.svg" alt="enjoyment icon" class="h-5 w-5"/>
+                    <span class="pl-2">Enjoyment</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-yellow-300 h-2.5 rounded" style="width: <%= journal.enjoyment * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="fear">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/fear.svg" alt="fear icon" class="h-5 w-5"/>
+                    <span class="pl-2">Fear</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-violet-500 h-2.5 rounded" style="width: <%= journal.fear * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="sadness">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/sadness.svg" alt="sadness icon" class="h-5 w-5"/>
+                    <span class="pl-2">Sadness</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-blue-500 h-2.5 rounded" style="width: <%= journal.sadness * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="surprise">
+                <dt class="flex flex-row text-sm font-medium text-gray-500 py-2">
+                    <img src="/icons/surprise.svg" alt="surprise icon" class="h-5 w-5"/>
+                    <span class="pl-2">Surprise</span>
+                </dt>
+                <dd class="flex items-center mb-3">
+                    <div class="w-full bg-gray-200 rounded h-2.5 me-2">
+                        <div class="bg-pink-400 h-2.5 rounded" style="width: <%= journal.surprise * 20 %>%"></div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </section>
+
+    <section id="journal-notes" class="pt-5 mt-2 ">
+        <h3 class="text-xl font-bold tracking-tight text-gray-900 mb-2">Notes</h3>
+        <p>
+            <%= journal.notes %>
+        </p>
+    </section>
+
+    <section class="flex flex-row gap-2 justify-end">
+
+        <div>
+            <a type="button"
+               href="/journals/edit/<%=journal.journal_id%>"
+               class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                Edit
+            </a>
+        </div>
+
+        <form action="/journals/delete" method="post">
+            <input type="hidden" name="journalId" value="<%= journal.journal_id %>">
+            <button type="submit"
+                    class="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Delete
+            </button>
+        </form>
+    </section>
+</main>
 </body>
-
 </html>
