@@ -1,11 +1,9 @@
 const express = require('express');
 const debug = require('debug')('app:authRouter');
-const database = require('../utils/dbconn');
+const authController = require('../controllers/authController');
 
 const authRouter = express.Router();
 
-authRouter.route('/register').post((request, response) => {
-    response.send(request.body)
-});
+authRouter.post('/login', authController.login);
 
 module.exports = authRouter;
