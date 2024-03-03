@@ -13,14 +13,20 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                     Create an account
                 </h1>
-                <form name="register" class="space-y-4 md:space-y-6" action="/auth/register" method="post">
-                    <div id="email-input">
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
-                            Your email
+                <% if (typeof errorMessage !== 'undefined') { %>
+                    <h1 class="font-bold text-red-500">
+                        An error occurred when creating your account.
+                        <span><%= errorMessage %></span>
+                    </h1>
+                <% } %>
+                <form name="register" class="space-y-4 md:space-y-6" action="/register" method="post">
+                    <div id="username-input">
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900">
+                            Your username
                         </label>
-                        <input type="email" name="email" id="email"
+                        <input type="text" name="username" id="username"
                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                               placeholder="name@company.com" required>
+                               required>
                     </div>
                     <div id="password-input">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900">

@@ -1,40 +1,17 @@
 const express = require('express');
-const debug = require('debug')('app:journalRouter');
-const {response} = require("express");
+const authMiddleware = require('../middleware/auth');
 
 const journalController = require('../controllers/journalControllers');
 const journalRouter = express.Router();
 
 
-journalRouter.route('/add').get((request, response) => {
-    response.render('add-journal');
-})
+journalRouter.get('/', authMiddleware.isAuthenticated, journalController.getAllJournalsByUserid);
+journalRouter.get('/add', authMiddleware.isAuthenticated, journalController.addNewJournal);
+journalRouter.get('/edit/:id', authMiddleware.isAuthenticated, journalController.editJournal);
+journalRouter.get('/:id', authMiddleware.isAuthenticated, journalController.getJournalById);
 
-journalRouter.get('/', journalController.getAllJournalsByUserid)
-
-journalRouter.post('/add', journalController.addJournal);
-
-
-journalRouter.route('/edit/:id').get((request, response) => {
-    response.render('edit-journal', {journal: rows[0]});
-})
-
-
-journalRouter.route('/add').post((request, response) => {
-    response.redirect('/journals/');
-});
-
-
-journalRouter.route('/update/:id').post((request, response) => {
-    response.redirect(`/journals/${id}`);
-});
-
-journalRouter.route('/delete').post((request, response) => {
-    response.redirect('/journals');
-});
-
-journalRouter.route('/:id').get((request, response) => {
-    response.render('journal', {journal: rows[0]});
-});
+journalRouter.post('/add', authMiddleware.isAuthenticated, journalController.postNewJournal);
+journalRouter.post('/delete', authMiddleware.isAuthenticated, journalController.deleteJournal)
+journalRouter.post('/update/:id', authMiddleware.isAuthenticated, journalController.updateJournal);
 
 module.exports = journalRouter;

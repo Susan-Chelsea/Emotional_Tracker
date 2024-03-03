@@ -5,8 +5,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Journal</title>
 </head>
-<body class="container mx-auto px-6 py-32 lg:px-8">
-<main class="">
+
+<body>
+<%- include('./navbar'); %>
+<main class="container mx-auto px-6 py-16 lg:px-8">
     <form action="/journals/add" method="post">
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
@@ -21,55 +23,46 @@
                         <input type="hidden" name="userId" id="user-id" value="">
                     </div>
 
-                    <div id="title-input" class="sm:col-span-4">
+                    <div id="title-input" class="col-span-4">
                         <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
-                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                            <input type="text"
-                                   name="title"
-                                   id="title"
-                                   class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                        <div class="mt-2">
+                            <input type="text" name="title" id="title"
+                                   class="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                     </div>
 
-                    <% ['anger', 'contempt', 'disgust', 'enjoyment', 'fear', 'sadness', 'surprise'].map(emotion => { %>
-                    <div id="<%= emotion %>-input" class="sm:col-span-4">
-                        <label for="<%= emotion %>"
-                               class="block text-sm font-medium leading-6 text-gray-900 pb-1"><%= emotion %></label>
-                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                            <input type="number"
-                                   max="5"
-                                   min="0"
-                                   name="<%= emotion %>"
-                                   id="<%= emotion %>"
-                                   class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
+                    <% [
+                        {emotion: 'anger', style: 'accent-red-600'},
+                        {emotion: 'contempt', style: 'accent-gray-600'},
+                        {emotion: 'disgust', style: 'accent-lime-800'},
+                        {emotion: 'enjoyment', style: 'accent-yellow-300'},
+                        {emotion: 'fear', style: 'accent-violet-500'},
+                        {emotion: 'sadness', style: 'accent-blue-500'},
+                        {emotion: 'surprise', style: 'accent-pink-400'},
+                    ].map(emotion => { %>
+                        <div id="<%= emotion.emotion %>-input" class="col-span-4">
+                            <label for="<%= emotion.emotion %>"
+                                   class="block text-sm font-medium leading-6 text-gray-900 pb-1"><%= emotion.emotion %></label>
+                            <div class="flex flex-row">
+                                <p class="pt-3">0</p>
+                                <input name="<%= emotion.emotion %>"
+                                       id="<%= emotion.emotion %>"
+                                       type="range" value="0" min="0" max="5"
+                                       class="block w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer <%= emotion.style %>">
+                                <p class="pt-3">5</p>
+                            </div>
                         </div>
-<!--                        <label for="<%= emotion %>"-->
-<!--                               class="block text-sm font-medium leading-6 text-gray-900 pb-1"><%= emotion %></label>-->
-
-<!--                        <div class="relative flex items-center max-w-[8rem]">-->
-<!--                            <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">-->
-<!--                                <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">-->
-<!--                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>-->
-<!--                                </svg>-->
-<!--                            </button>-->
-<!--                            <input type="text" id="quantity-input" data-input-counter data-input-counter-min="1" data-input-counter-max="50" aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="999" value="5" required>-->
-<!--                            <button type="button" id="increment-button" data-input-counter-increment="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none">-->
-<!--                                <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">-->
-<!--                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>-->
-<!--                                </svg>-->
-<!--                            </button>-->
-<!--                        </div>-->
-                    </div>
                     <% }) %>
 
-                    <div id="trigger-input" class="sm:col-span-4">
+                    <div id="trigger-input" class="col-span-4">
                         <label for="trigger" class="block text-sm font-medium leading-6 text-gray-900">Trigger</label>
-                        <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                            <input type="text"
-                                   name="trigger"
-                                   id="trigger"
-                                   class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6">
-                        </div>
+                        <select id="trigger" name="trigger"
+                                class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="" disabled selected>Select your option</option>
+                            <% ['Education', 'Family', 'Finances', 'Friendship', 'Health', 'Relationship', 'Work'].map(trigger => { %>
+                                <option><%= trigger %></option>
+                            <% }) %>
+                        </select>
                     </div>
 
                     <div id="datetime-input">
@@ -78,12 +71,14 @@
                     </div>
 
                     <div class="col-span-full">
-                        <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Notes</label>
+                        <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Journal
+                            entry</label>
                         <div class="mt-2">
                             <textarea id="about" name="about" rows="3"
-                                      class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                                      class="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                         </div>
-                        <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
+                        <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about your how you're
+                            feeling.</p>
                     </div>
                 </div>
             </div>

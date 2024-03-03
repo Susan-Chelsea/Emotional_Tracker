@@ -6,7 +6,6 @@ const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv').config({path: './config.env'});
 
-const adminRouter = require('./src/routers/adminRouter')
 const authRouter = require('./src/routers/authRouter')
 const journalRouter = require('./src/routers/journalRouter')
 
@@ -23,24 +22,15 @@ app.use(session({
     secret: 'subedobee',
     resave: false,
     saveUninitialized: false,
-    cookie: {maxAge: 36000}
+    cookie: {maxAge: 36000 * 20}
 }));
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-app.use('/admin', adminRouter);
-app.use('/auth', authRouter);
+app.use('/', authRouter);
 app.use('/journals', journalRouter);
 
-
-app.get('/', (request, response) => {
-    response.render('index');
-});
-
-app.get('/register', (request, response) => {
-    response.render('register');
-});
 
 app.listen(PORT, () => {
     debug(`listening on port ${chalk.magenta(PORT)}`);
