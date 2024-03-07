@@ -15,6 +15,7 @@ const app = express();
 app.use(morgan('tiny'));
 app.use(express.static(path.join(__dirname, '/public/')));
 app.use('/icons/', express.static(path.join(__dirname, '/public/icons/')));
+app.use(express.static(path.join(__dirname, './src/charts/')));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -30,6 +31,10 @@ app.set('view engine', 'ejs');
 
 app.use('/', authRouter);
 app.use('/journals', journalRouter);
+
+app.use((req, res, next) => {
+    res.render('error');
+})
 
 
 app.listen(PORT, () => {

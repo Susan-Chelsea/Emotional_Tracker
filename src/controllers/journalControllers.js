@@ -26,7 +26,6 @@ exports.getJournalById = async (req, res) => {
             if (response.data.success) {
                 res.render('journal', {journal: response.data.journal});
             } else {
-                console.log(response.data.message)
                 res.redirect('/journals')
             }
         })
@@ -62,10 +61,7 @@ exports.deleteJournal = async (req, res) => {
     await axios
         .delete(endpoint)
         .then((response) => {
-            console.log(response.status)
-            if (response.status === 200) {
-                res.redirect('/journals/')
-            }
+            res.redirect('/journals/')
         })
         .catch((error) => {
             console.log(`Error making API request: ${error}`);
@@ -104,5 +100,19 @@ exports.updateJournal = async (req, res) => {
         .catch((error) => {
             console.error(`Error making API request: ${error}`);
             res.redirect('/journals/');
+        });
+}
+
+exports.overview = async (req, res) => {
+    const {userId, firstName} = req?.session?.profile;
+    const endpoint = `${process.env.BASE_API_URL}/journals/getAllJournals/${userId}`;
+
+    await axios
+        .get(endpoint)
+        .then((response) => {
+            res.render('overview', {journals: response.data.journals, firstName: firstName});
+        })
+        .catch((error) => {
+            console.log(`Error making API request: ${error}`);
         });
 }

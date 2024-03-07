@@ -5,7 +5,6 @@ exports.index = (request, response) => {
 };
 
 exports.registrationPage = (request, response) => {
-    console.log(request)
     response.render('register');
 }
 
@@ -33,6 +32,7 @@ exports.login = async (req, res) => {
         })
         .catch((error) => {
             console.log(`Error making API request: ${error}`);
+            res.render('index', {authenticated: false, errorMessage: "Error signing in. Please try again."});
         });
 }
 
@@ -45,7 +45,10 @@ exports.register = async (req, res) => {
             if (response.data.success) {
                 res.render('index', {accountCreated: true});
             } else {
-                throw new Error("Something went wrong creating account.");
+                res.render('index', {
+                    authenticated: false,
+                    errorMessage: "Something went wrong creating account. Please try again later"
+                });
             }
 
         })

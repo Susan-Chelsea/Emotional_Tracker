@@ -4,15 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=app nodemon app.js",
+    "start": "DEBUG=app nodemon app.js & npm run tailwindcss",
     "debug": "DEBUG=* nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwindcss": "npx tailwindcss -i ./src/input.css -o public/css/styles.css --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "apexcharts": "^3.46.0",
     "axios": "^1.6.7",
     "chalk": "^4.1.1",
+    "chart.js": "^4.4.2",
     "debug": "^4.3.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.6",
@@ -28,5 +32,8 @@
     "env": {
       "PORT": 4000
     }
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
   }
 }
